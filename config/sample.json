@@ -1,0 +1,49 @@
+{
+    "global": {
+        "age_by": "filename",
+        "archive_base_path": "/path/to/backup-location/data",
+        "archive_tmp_path": "/path/to/backup-location/tmp",
+        "create_dry_run": false,
+        "day_weekly": "Friday",
+        "delete_dry_run": false,
+        "logfile": "/path/to/logfile.log",
+        "mkdir": true,
+        "month_yearly": 12,
+        "months_quarterly": [
+            3,
+            6,
+            9,
+            12
+        ],
+        "move_dry_run": false
+    },
+    "items": [
+        {
+            "exclude_file": "/path/to/your/important/files/tar-exclude-file",
+            "key": "/path/to/your/important/files/.my-key",
+            "lifecycle": {
+                "daily": 5,
+                "monthly": 1,
+                "quarterly": 2,
+                "weekly": 3,
+                "yearly": 1
+            },
+            "name": "sample-name",
+            "source": "/path/to/your/important/files"
+        },
+        {
+            "name": "sample2",
+            "source": "/path/to/your/other/files"
+        },
+        {
+            "lifecycle": {
+                "daily": 7,
+                "monthly": 3,
+                "quarterly": 4,
+                "weekly": 4,
+                "yearly": 7
+            },
+            "name": "sample3"
+        }
+    ]
+}

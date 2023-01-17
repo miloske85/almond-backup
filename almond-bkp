@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import sys
+
+from os import path
+
+from lib import purge
+from lib import archiver
+from lib import lifecycle_handler
+
+
+class AlmondBkp:
+
+    # default config file
+    config_file = '/usr/local/etc/almond.json'
+    config_type = 'json'
+    config = {}
+
+    def __init__(self):
+        self.set_config(self.config_file, self.config_type)
+    def set_config(self, config_file, type):
+        self.config_file = config_file
+        self.config_type = type
+    def load_config(self):
+        #TODO error checking
+        with open(self.config_file, 'r') as fp:
+            if self.config_type == 'json':
+                self.config = json.load(fp)
+            elif self.config_type == 'yaml':
+                self.config = yaml.safe_load(fp)
+    def process(self):
+        lifecycle_handler.LifecycleHandler(self.config)
+        purge.Purge(self.config)
+        archiver.Archive(self.config)
+    def debug(self):
+        pass
+
+
+parse = argparse.ArgumentParser()
+
+parse.add_argument("-v", "--version", action="store_true", help="Print version info")
+parse.add_argument("-c", "--config-file", help="JSON config file")
+parse.add_argument("-y", "--yaml-config-file", help="YAML config file")
+parse.add_argument("--check", action="store_true", help="Validate config file")
+parse.add_argument("--debug", action="store_true", help="Print debug info")
+
+args = parse.parse_args()
+
+almd = AlmondBkp()
+
+if args.version:
+    with open(path.join(sys.path[0], 'VERSION'), 'r') as fp:
+        version = fp.read()
+    print("Almond Backup: " + version)
+    sys.exit(0)
+
+if args.config_file:
+    almd.set_config(args.config_file, 'json')
+elif args.yaml_config_file:
+    import yaml
+    almd.set_config(args.yaml_config_file, 'yaml')
+
+if args.debug:
+    almd.load_config()
+    almd.process()
+    almd.debug()
+elif args.check:
+    almd.load_config()
+    print("Config file is valid JSON/YAML")
+else:
+    almd.load_config()
+    almd.process()

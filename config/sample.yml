@@ -1,0 +1,71 @@
+global:
+  logfile: /path/to/logfile.log
+
+  # the path under which all backup archives will be stored
+  archive_base_path: /path/to/backup-location/data
+
+  # location where temporary files (tar.bz2) will be created before encrypting them
+  archive_tmp_path: /path/to/backup-location/tmp
+
+  # [optional] if true, don't create new archives, just log action
+  create_dry_run: false
+
+  # [optional] if true, don't move archives out of daily folder
+  move_dry_run: false
+
+  # [optional] if true, don't delete old archives
+  delete_dry_run: false
+
+  # [optional] if true, make directories that don't exist
+  mkdir: true
+
+  # how to determine age of archives, timestamp|filename
+  age_by: filename
+
+  # on which day to create weekly archives
+  day_weekly: Friday
+
+  # on which months to create quarterly archives
+  months_quarterly:
+  - 3
+  - 6
+  - 9
+  - 12
+
+  # on which month to create yearly archives, must be on of the quarterly months
+  month_yearly: 12
+
+# list of items to back up
+items:
+- name: sample-name
+  # [optional]
+  source: /path/to/your/important/files
+
+  # [optional] location of file passed to --exclude-from TAR option: https://www.gnu.org/software/tar/manual/html_node/exclude.html
+  exclude_file: /path/to/your/important/files/tar-exclude-file
+
+  # [optional] location of file passed to --passphrase-file GPG option, archives won't be encrypted without this parameter
+  key: /path/to/your/important/files/.my-key
+
+  # [optional]
+  lifecycle:
+    daily: 5
+    weekly: 3
+    monthly: 1
+    quarterly: 2
+    yearly: 1
+
+# create only unencrypted archives, never delete them
+- name: sample2
+  source: /path/to/your/other/files
+
+# only manage lifecycle of archives in 'sample3' folder
+- name: sample3
+  lifecycle:
+    daily: 7
+    weekly: 4
+    monthly: 3
+    quarterly: 4
+    yearly: 7
+
+
