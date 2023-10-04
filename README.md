@@ -1,6 +1,6 @@
 # Almond Backup
 
-Having a backup copy of your files, on a RAID array, or cloud (if you're a normie) is important, but often not enough. For important files it is highly desirable to have multiple backup copies.
+Having a backup copy of your files, on a RAID array, or cloud (if you're a normie) is important, but often not enough. For important files it is highly desirable to have multiple backup copies. Some filesystems support snapshots, some OSes support automated previous versions, but in there are times when this is not flexible enough.
 
 Almond Backup can:
 
